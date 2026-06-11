@@ -5,286 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Last Asylum Compendium</title>
     <style>
-        /* Base Variables & Theme - Last Asylum */
         :root {
-            /* Warm, dark leather tones */
             --bg-color: #1a1512; 
-            --card-bg: rgba(42, 34, 30, 0.85); /* Slightly transparent to show texture */
+            --card-bg: rgba(42, 34, 30, 0.85); 
             --nav-bg: #110d0b;
-            
-            /* Tarnished metals & aged paper */
-            --text-main: #d9cbb8; /* Aged parchment white, not blinding white */
-            --text-muted: #8a7b6e; /* Faded ink */
-            --accent-color: #B8975A; /* Tarnished Gold/Bronze */
-            --border-color: #3d3128; /* Dark stitched leather */
-            
-            /* Thematic Typography */
-            --font-headers: "Georgia", serif; /* Gives that antique book feel */
+            --text-main: #d9cbb8; 
+            --text-muted: #8a7b6e; 
+            --accent-color: #B8975A; 
+            --border-color: #3d3128; 
+            --font-headers: "Georgia", serif; 
             --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        body {
-            margin: 0; padding: 0; 
-            font-family: var(--font-body);
-            background-color: #050403; /* Deepest shadow outside the compendium */
-            color: var(--text-main); 
-            display: flex; justify-content: center;
-        }
+        body { margin: 0; padding: 0; font-family: var(--font-body); background-color: #050403; color: var(--text-main); display: flex; justify-content: center; }
 
         #mobile-container {
             width: 100%; max-width: 400px; height: 100dvh; 
-            
-            /* The Antique Leather Vignette Effect */
             background: radial-gradient(circle at center, #2b231e 0%, #110d0b 100%);
-            
-            position: relative; overflow: hidden; 
-            box-shadow: 0 0 30px rgba(0,0,0,1); /* Heavy drop shadow */
+            position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,1); 
             display: flex; flex-direction: column; scroll-behavior: smooth;
         }
 
         /* --- STACKED PLAGUE LANTERN HEADER --- */
         .lantern-header {
             position: sticky; top: 0;
-            /* Shifted from 'top center' to 'center 40%' to center the glow behind the lantern */
             background: radial-gradient(circle at center 40%, rgba(35, 120, 45, 0.25) 0%, rgba(20, 60, 25, 0.05) 40%, var(--nav-bg) 70%);
             padding: 10px 20px;
             border-bottom: 2px solid var(--border-color);
             z-index: 20;
             display: flex; justify-content: space-between; align-items: center;
         }
-
-
-        /* Re-adding the downward ambient light cast */
+        
         .lantern-header::after {
-            content: '';
-            position: absolute;
-            bottom: -40px;
-            left: 0;
-            width: 100%;
-            height: 40px;
+            content: ''; position: absolute; bottom: -40px; left: 0;
+            width: 100%; height: 40px;
             background: linear-gradient(to bottom, rgba(35, 120, 45, 0.15), transparent);
             pointer-events: none; 
         }
 
-
-        .header-stack {
-            position: relative;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center;
-            height: 100px;
-        }
-
+        .header-stack { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100px; }
+        
         .lantern-img {
-            width: 70px; height: auto;
-            position: absolute; z-index: 0;
-            mix-blend-mode: screen;
-            filter: contrast(1.8) brightness(0.7);
+            width: 85px; height: auto; position: absolute; z-index: 0;
+            mix-blend-mode: screen; filter: contrast(1.8) brightness(0.7);
             -webkit-mask-image: radial-gradient(closest-side, black 50%, transparent 95%);
             mask-image: radial-gradient(closest-side, black 50%, transparent 95%);
         }
 
         .debossed-title {
-            position: relative; z-index: 1;
-            margin-top: 35px; /* Adjusts how far down the text sits */
-            font-family: var(--font-headers);
-            font-size: 1.1rem; font-weight: bold;
-            letter-spacing: 3px; text-transform: uppercase;
-            color: var(--text-main);
+            position: relative; z-index: 1; margin-top: 45px;
+            font-family: var(--font-headers); font-size: 1.4rem; font-weight: bold;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--text-main);
             text-shadow: 2px 2px 3px rgba(0,0,0,0.8), 0px 0px 5px rgba(76, 175, 80, 0.5);
         }
 
-
-
-
-        .back-btn { 
-            color: var(--accent-color); 
-            font-weight: bold; 
-            font-size: 1.2rem;
-            cursor: pointer; 
-            text-decoration: none; 
-            margin-top: 5px; /* Aligns with the top of the lantern */
+        .subtitle {
+            position: relative; z-index: 1; font-family: var(--font-headers);
+            font-style: italic; font-size: 0.85rem; color: var(--accent-color);
+            letter-spacing: 1.5px; margin-top: 2px;
         }
 
-        .icon { 
-            font-size: 1.2rem; 
-            cursor: pointer; 
-            margin-top: 5px;
-            color: var(--accent-color);
-        }
-
+        /* --- MAIN CONTENT & NAVIGATION --- */
         main { flex-grow: 1; overflow-y: auto; padding: 20px 20px 40px 20px; }
-
-        .hero { text-align: center; margin-bottom: 30px; }
-        .hero h1 { font-size: 1.5rem; margin-bottom: 15px; color: var(--accent-color); }
-        .search-bar {
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);
-            background-color: var(--card-bg); color: var(--text-main); box-sizing: border-box; font-size: 1rem;
-        }
+        .hero { text-align: center; margin-bottom: 30px; margin-top: 20px; }
+        .search-bar { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--card-bg); color: var(--text-main); box-sizing: border-box; font-size: 1rem; }
         .search-bar:focus { outline: none; border-color: var(--accent-color); }
 
         h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-
         .pinned-section { display: flex; overflow-x: auto; gap: 15px; margin-bottom: 30px; padding-bottom: 10px; scrollbar-width: none; }
         .pinned-section::-webkit-scrollbar { display: none; }
-        .pinned-card {
-            min-width: 140px; background-color: var(--card-bg); padding: 15px; border-radius: 8px;
-            border-top: 3px solid var(--accent-color); flex-shrink: 0; text-decoration: none; color: inherit; display: block;
-        }
+        .pinned-card { min-width: 140px; background-color: var(--card-bg); padding: 15px; border-radius: 8px; border-top: 3px solid var(--accent-color); flex-shrink: 0; text-decoration: none; color: inherit; display: block; }
         .pinned-card .icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
         .pinned-card span { font-size: 0.85rem; font-weight: bold; line-height: 1.2; display: block; }
 
         .directories { display: flex; flex-direction: column; gap: 12px; }
-        .dir-card {
-            background-color: var(--card-bg); padding: 15px; border-radius: 8px; display: flex;
-            align-items: center; justify-content: space-between; text-decoration: none; color: inherit;
-        }
+        .dir-card { background-color: var(--card-bg); padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: inherit; }
         .dir-content { display: flex; flex-direction: column; }
         .dir-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 4px; }
         .dir-sub { font-size: 0.75rem; color: var(--text-muted); }
         .dir-arrow { color: var(--accent-color); font-weight: bold; }
 
-        footer {
-            width: 100%; background-color: var(--nav-bg); border-top: 1px solid var(--border-color);
-            display: flex; justify-content: space-around; padding: 10px 0 20px 0; z-index: 30; flex-shrink: 0;
-        }
+        footer { width: 100%; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0 20px 0; z-index: 30; flex-shrink: 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; gap: 4px; text-decoration: none; }
         .nav-item.active { color: var(--accent-color); }
         .nav-icon { font-size: 1.2rem; }
-        
-        /* Helper for search filtering */
         .hidden { display: none !important; }
-        /* --- QUARANTINE WARNING STRIP --- */
-        .warning-strip {
-            position: relative;
-            background-color: #d4b872; /* Faded, sickly yellow */
-            font-family: "Courier New", Courier, monospace; /* Typewriter aesthetic */
-            text-align: center;
-            padding: 25px 20px;
-            margin: 40px 20px 20px 20px; /* Pushes it to the bottom of the content */
-            
-            /* Simulates torn, perforated edges */
-            border-top: 3px dashed #8c7646;
-            border-bottom: 3px dashed #8c7646;
-            box-shadow: inset 0 0 20px rgba(100, 80, 40, 0.4), 0 10px 20px rgba(0,0,0,0.6);
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .warning-strip p {
-            position: relative;
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: bold;
-            line-height: 1.5;
-            color: #1a1a1a; /* Faded black ink, overrides the global white text */
-            z-index: 2; /* Ensures text sits above the red stamp */
-        }
-
-        /* Faded Red Biohazard Stamp */
-        .biohazard-stamp {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-12deg);
-            
-            font-family: "Arial Black", Impact, sans-serif;
-            font-size: 2.5rem;
-            letter-spacing: 4px;
-            color: rgba(180, 40, 40, 0.15); /* Faded, translucent red ink */
-            
-            border: 4px solid rgba(180, 40, 40, 0.15);
-            border-radius: 8px;
-            padding: 5px 15px;
-            pointer-events: none; /* Prevents the stamp from blocking text selection */
-            white-space: nowrap;
-            z-index: 0;
-        }
     </style>
 </head>
 <body>
 
 <div id="mobile-container">
     
-<header class="lantern-header">
-    <a href="last-asylum.html" class="back-btn">❮</a>
-    
-    <div class="header-stack">
-        <img src="lantern.png" alt="Plague Lantern" class="lantern-img">
-        <h1 class="debossed-title">LAST ASYLUM</h1>
-    </div>
-    
-    <div class="icon">🔍</div>
-</header>
-
+    <header class="lantern-header">
+        <div style="width: 25px;"></div> <div class="header-stack">
+            <img src="images/lantern.png" alt="Plague Lantern" class="lantern-img">
+            <h1 class="debossed-title">LAST ASYLUM</h1>
+            <div class="subtitle">Survival Compendium</div>
+        </div>
+        <div style="width: 25px;"></div> </header>
 
     <main>
         <div class="hero">
-            <h1>Welcome to the Asylum</h1>
-            <input type="text" id="searchInput" class="search-bar" placeholder="Search for rules, guides...">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search guides...">
         </div>
 
         <h2>Critical Intel</h2>
         <div class="pinned-section" id="pinnedContainer">
-            <a href="capitol-blueprint.html" class="pinned-card searchable-item">
-                <span class="icon">📜</span>
-                <span>Capitol Rotation Blueprint</span>
+            <a href="rules.html" class="pinned-card searchable-item">
+                <span class="nav-icon">📜</span>
+                <span>Capitol Rotation</span>
             </a>
             <a href="#" class="pinned-card searchable-item">
-                <span class="icon">⚠️</span>
-                <span>Kingdom War Timers</span>
-            </a>
-            <a href="#" class="pinned-card searchable-item">
-                <span class="icon">🔥</span>
-                <span>Current Ascension Limits</span>
+                <span class="nav-icon">⚠️</span>
+                <span>War Timers</span>
             </a>
         </div>
 
         <h2>Directories</h2>
         <div class="directories" id="directoryContainer">
-            <a href="#" class="dir-card searchable-item">
+            <a href="rules.html" class="dir-card searchable-item">
                 <div class="dir-content">
                     <span class="dir-title">⚖️ Server Rules</span>
-                    <span class="dir-sub">Kingdom War laws & snapshot times</span>
+                    <span class="dir-sub">Kingdom War laws & snapshots</span>
                 </div>
                 <div class="dir-arrow">></div>
             </a>
-
-            <a href="#" class="dir-card searchable-item">
-                <div class="dir-content">
-                    <span class="dir-title">📖 Game Guides</span>
-                    <span class="dir-sub">Mechanics, strategies, & builds</span>
-                </div>
-                <div class="dir-arrow">></div>
-            </a>
-
-            <a href="#" class="dir-card searchable-item">
-                <div class="dir-content">
-                    <span class="dir-title">🤝 Alliance & Diplomacy</span>
-                    <span class="dir-sub">Rosters, ranks, & territory agreements</span>
-                </div>
-                <div class="dir-arrow">></div>
-            </a>
-        </div>
-        <div class="warning-strip">
-            <div class="biohazard-stamp">☣ RESTRICTED</div>
-            <p>Maintained by @JJosh.</p>
         </div>
     </main>
 
     <footer>
-        <a href="last-asylum.html" class="nav-item active">
+        <a href="index.html" class="nav-item active">
             <span class="nav-icon">🏠</span>
             <span>Home</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="rules.html" class="nav-item">
             <span class="nav-icon">⚖️</span>
             <span>Rules</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="guides.html" class="nav-item">
             <span class="nav-icon">📖</span>
             <span>Guides</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="alliance.html" class="nav-item">
             <span class="nav-icon">🤝</span>
             <span>Alliance</span>
         </a>
@@ -294,17 +156,12 @@
 <script>
     const searchInput = document.getElementById('searchInput');
     const searchableItems = document.querySelectorAll('.searchable-item');
-
     searchInput.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase();
-
         searchableItems.forEach(item => {
             const text = item.innerText.toLowerCase();
-            if (text.includes(searchTerm)) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
+            if (text.includes(searchTerm)) item.classList.remove('hidden');
+            else item.classList.add('hidden');
         });
     });
 </script>
