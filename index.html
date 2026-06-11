@@ -42,23 +42,19 @@
             display: flex; flex-direction: column; scroll-behavior: smooth;
         }
 
-        /* --- PLAGUE LANTERN HEADER STYLES --- */
+        /* --- STACKED PLAGUE LANTERN HEADER --- */
         .lantern-header {
-            position: sticky;
-            top: 0;
-            background-color: var(--nav-bg);
-            padding: 10px 20px 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            position: sticky; top: 0;
+            /* Shifted from 'top center' to 'center 40%' to center the glow behind the lantern */
+            background: radial-gradient(circle at center 40%, rgba(35, 120, 45, 0.25) 0%, rgba(20, 60, 25, 0.05) 40%, var(--nav-bg) 70%);
+            padding: 10px 20px;
             border-bottom: 2px solid var(--border-color);
             z-index: 20;
-            
-            /* Sickly, toxic green ambient glow */
-            background: radial-gradient(circle at top center, rgba(76, 175, 80, 0.15) 0%, var(--nav-bg) 60%);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* The downward light cast onto the page content */
+
+        /* Re-adding the downward ambient light cast */
         .lantern-header::after {
             content: '';
             position: absolute;
@@ -66,10 +62,38 @@
             left: 0;
             width: 100%;
             height: 40px;
-            /* Downward green light cast */
-            background: linear-gradient(to bottom, rgba(76, 175, 80, 0.12), transparent);
+            background: linear-gradient(to bottom, rgba(35, 120, 45, 0.15), transparent);
             pointer-events: none; 
         }
+
+
+        .header-stack {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center;
+            height: 100px;
+        }
+
+        .lantern-img {
+            width: 70px; height: auto;
+            position: absolute; z-index: 0;
+            mix-blend-mode: screen;
+            filter: contrast(1.8) brightness(0.7);
+            -webkit-mask-image: radial-gradient(closest-side, black 50%, transparent 95%);
+            mask-image: radial-gradient(closest-side, black 50%, transparent 95%);
+        }
+
+        .debossed-title {
+            position: relative; z-index: 1;
+            margin-top: 35px; /* Adjusts how far down the text sits */
+            font-family: var(--font-headers);
+            font-size: 1.1rem; font-weight: bold;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--text-main);
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.8), 0px 0px 5px rgba(76, 175, 80, 0.5);
+        }
+
+
 
 
         .back-btn { 
@@ -86,44 +110,6 @@
             cursor: pointer; 
             margin-top: 5px;
             color: var(--accent-color);
-        }
-
-        .lantern-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .lantern-icon {
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .lantern-img {
-            width: 55px; 
-            height: auto;
-            display: block;
-            
-            /* This makes the pitch-black background of your image completely 
-               invisible, blending the natural green glow seamlessly into the header */
-            mix-blend-mode: screen; 
-            filter: none; 
-        }
-
-
-        /* Debossed Antique Book Text */
-        .debossed-title {
-            font-family: var(--font-headers);
-            font-size: 0.95rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            
-            /* The Deboss Effect: Dark text with a white highlight at the bottom and dark shadow at the top */
-            color: #050403;
-            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.15), 0px -1px 1px rgba(0, 0, 0, 0.9);
         }
 
         main { flex-grow: 1; overflow-y: auto; padding: 20px 20px 40px 20px; }
@@ -219,18 +205,17 @@
 
 <div id="mobile-container">
     
-    <header class="lantern-header">
-        <a href="last-asylum.html" class="back-btn">❮</a>
-        
-        <div class="lantern-container">
-            <div class="lantern-icon">
-                <img src="lantern.png" alt="Plague Lantern" class="lantern-img">
-            </div>
-            <div class="debossed-title">Last Asylum</div>
-        </div>
-        
-        <div class="icon">🔍</div>
-    </header>
+<header class="lantern-header">
+    <a href="last-asylum.html" class="back-btn">❮</a>
+    
+    <div class="header-stack">
+        <img src="lantern.png" alt="Plague Lantern" class="lantern-img">
+        <h1 class="debossed-title">LAST ASYLUM</h1>
+    </div>
+    
+    <div class="icon">🔍</div>
+</header>
+
 
     <main>
         <div class="hero">
