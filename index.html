@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Asylum Compendium</title>
+    <style>
+        /* Base Variables & Theme */
+        :root {
+            --bg-color: #121212;
+            --card-bg: #222222;
+            --text-main: #E0E0E0;
+            --text-muted: #888888;
+            --accent-color: #B8975A;
+            --nav-bg: #1A1A1A;
+            --border-color: #333333;
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #000; color: var(--text-main); display: flex; justify-content: center;
+        }
+
+        #mobile-container {
+            width: 100%; max-width: 400px; height: 100dvh; background-color: var(--bg-color);
+            position: relative; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: var(--nav-bg); padding: 15px 20px; display: flex;
+            justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); z-index: 20;
+        }
+
+        .logo { font-weight: bold; letter-spacing: 1px; color: var(--text-main); }
+        .icon { font-size: 1.2rem; cursor: pointer; }
+
+        main { flex-grow: 1; overflow-y: auto; padding: 20px 20px 40px 20px; }
+
+        .hero { text-align: center; margin-bottom: 30px; }
+        .hero h1 { font-size: 1.5rem; margin-bottom: 15px; color: var(--accent-color); }
+        .search-bar {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);
+            background-color: var(--card-bg); color: var(--text-main); box-sizing: border-box; font-size: 1rem;
+        }
+        .search-bar:focus { outline: none; border-color: var(--accent-color); }
+
+        h2 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
+
+        .pinned-section { display: flex; overflow-x: auto; gap: 15px; margin-bottom: 30px; padding-bottom: 10px; scrollbar-width: none; }
+        .pinned-section::-webkit-scrollbar { display: none; }
+        .pinned-card {
+            min-width: 140px; background-color: var(--card-bg); padding: 15px; border-radius: 8px;
+            border-top: 3px solid var(--accent-color); flex-shrink: 0; text-decoration: none; color: inherit; display: block;
+        }
+        .pinned-card .icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+        .pinned-card span { font-size: 0.85rem; font-weight: bold; line-height: 1.2; display: block; }
+
+        .directories { display: flex; flex-direction: column; gap: 12px; }
+        .dir-card {
+            background-color: var(--card-bg); padding: 15px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: space-between; text-decoration: none; color: inherit;
+        }
+        .dir-content { display: flex; flex-direction: column; }
+        .dir-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 4px; }
+        .dir-sub { font-size: 0.75rem; color: var(--text-muted); }
+        .dir-arrow { color: var(--accent-color); font-weight: bold; }
+
+        footer {
+            width: 100%; background-color: var(--nav-bg); border-top: 1px solid var(--border-color);
+            display: flex; justify-content: space-around; padding: 10px 0 20px 0; z-index: 30; flex-shrink: 0;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.7rem; gap: 4px; text-decoration: none; }
+        .nav-item.active { color: var(--accent-color); }
+        .nav-icon { font-size: 1.2rem; }
+        
+        /* Helper for search filtering */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div id="mobile-container">
+    
+    <header>
+        <div class="logo">LAST ASYLUM</div>
+        <div class="icon">🔍</div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h1>Welcome to the Asylum</h1>
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search for rules, guides...">
+        </div>
+
+        <h2>Critical Intel</h2>
+        <div class="pinned-section" id="pinnedContainer">
+            <a href="capitol-blueprint.html" class="pinned-card searchable-item">
+                <span class="icon">📜</span>
+                <span>Capitol Rotation Blueprint</span>
+            </a>
+            <a href="#" class="pinned-card searchable-item">
+                <span class="icon">⚠️</span>
+                <span>Kingdom War Timers</span>
+            </a>
+            <a href="#" class="pinned-card searchable-item">
+                <span class="icon">🔥</span>
+                <span>Current Ascension Limits</span>
+            </a>
+        </div>
+
+        <h2>Directories</h2>
+        <div class="directories" id="directoryContainer">
+            <a href="#" class="dir-card searchable-item">
+                <div class="dir-content">
+                    <span class="dir-title">⚖️ Server Rules</span>
+                    <span class="dir-sub">Kingdom War laws & snapshot times</span>
+                </div>
+                <div class="dir-arrow">></div>
+            </a>
+
+            <a href="#" class="dir-card searchable-item">
+                <div class="dir-content">
+                    <span class="dir-title">📖 Game Guides</span>
+                    <span class="dir-sub">Mechanics, strategies, & builds</span>
+                </div>
+                <div class="dir-arrow">></div>
+            </a>
+
+            <a href="#" class="dir-card searchable-item">
+                <div class="dir-content">
+                    <span class="dir-title">🤝 Alliance & Diplomacy</span>
+                    <span class="dir-sub">Rosters, ranks, & territory agreements</span>
+                </div>
+                <div class="dir-arrow">></div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <a href="last-asylum.html" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">⚖️</span>
+            <span>Rules</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">📖</span>
+            <span>Guides</span>
+        </a>
+        <a href="#" class="nav-item">
+            <span class="nav-icon">🤝</span>
+            <span>Alliance</span>
+        </a>
+    </footer>
+</div>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const searchableItems = document.querySelectorAll('.searchable-item');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+
+        searchableItems.forEach(item => {
+            const text = item.innerText.toLowerCase();
+            if (text.includes(searchTerm)) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
