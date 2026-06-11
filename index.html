@@ -5,35 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Last Asylum Compendium</title>
     <style>
-        /* Base Variables & Theme */
+        /* Base Variables & Theme - Last Asylum */
         :root {
-            --bg-color: #121212;
-            --card-bg: #222222;
-            --text-main: #E0E0E0;
-            --text-muted: #888888;
-            --accent-color: #B8975A;
-            --nav-bg: #1A1A1A;
-            --border-color: #333333;
+            /* Warm, dark leather tones */
+            --bg-color: #1a1512; 
+            --card-bg: rgba(42, 34, 30, 0.85); /* Slightly transparent to show texture */
+            --nav-bg: #110d0b;
+            
+            /* Tarnished metals & aged paper */
+            --text-main: #d9cbb8; /* Aged parchment white, not blinding white */
+            --text-muted: #8a7b6e; /* Faded ink */
+            --accent-color: #B8975A; /* Tarnished Gold/Bronze */
+            --border-color: #3d3128; /* Dark stitched leather */
+            
+            /* Thematic Typography */
+            --font-headers: "Georgia", serif; /* Gives that antique book feel */
+            --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #000; color: var(--text-main); display: flex; justify-content: center;
+            margin: 0; padding: 0; 
+            font-family: var(--font-body);
+            background-color: #050403; /* Deepest shadow outside the compendium */
+            color: var(--text-main); 
+            display: flex; justify-content: center;
         }
 
         #mobile-container {
-            width: 100%; max-width: 400px; height: 100dvh; background-color: var(--bg-color);
-            position: relative; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            width: 100%; max-width: 400px; height: 100dvh; 
+            
+            /* The Antique Leather Vignette Effect */
+            background: radial-gradient(circle at center, #2b231e 0%, #110d0b 100%);
+            
+            position: relative; overflow: hidden; 
+            box-shadow: 0 0 30px rgba(0,0,0,1); /* Heavy drop shadow */
             display: flex; flex-direction: column; scroll-behavior: smooth;
         }
 
-        header {
-            background-color: var(--nav-bg); padding: 15px 20px; display: flex;
-            justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); z-index: 20;
+        /* --- PLAGUE LANTERN HEADER STYLES --- */
+        .lantern-header {
+            position: sticky;
+            top: 0;
+            background-color: var(--nav-bg);
+            padding: 10px 20px 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Aligns items to the top so the lantern has room */
+            border-bottom: 2px solid var(--border-color);
+            z-index: 20;
+            
+            /* The ambient glow behind the lantern */
+            background: radial-gradient(circle at top center, rgba(184, 110, 30, 0.2) 0%, var(--nav-bg) 60%);
         }
 
-        .logo { font-weight: bold; letter-spacing: 1px; color: var(--text-main); }
-        .icon { font-size: 1.2rem; cursor: pointer; }
+        /* The downward light cast onto the page content */
+        .lantern-header::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(184, 110, 30, 0.15), transparent);
+            pointer-events: none; /* Prevents the glow from blocking taps on the anchors */
+        }
+
+        .back-btn { 
+            color: var(--accent-color); 
+            font-weight: bold; 
+            font-size: 1.2rem;
+            cursor: pointer; 
+            text-decoration: none; 
+            margin-top: 5px; /* Aligns with the top of the lantern */
+        }
+
+        .icon { 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            margin-top: 5px;
+            color: var(--accent-color);
+        }
+
+        .lantern-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .lantern-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            /* Creates a fiery, glowing halo around the lantern graphic */
+            filter: drop-shadow(0 0 12px rgba(220, 100, 20, 0.8));
+        }
+
+        /* Debossed Antique Book Text */
+        .debossed-title {
+            font-family: var(--font-headers);
+            font-size: 0.95rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            
+            /* The Deboss Effect: Dark text with a white highlight at the bottom and dark shadow at the top */
+            color: #050403;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.15), 0px -1px 1px rgba(0, 0, 0, 0.9);
+        }
 
         main { flex-grow: 1; overflow-y: auto; padding: 20px 20px 40px 20px; }
 
@@ -76,14 +154,68 @@
         
         /* Helper for search filtering */
         .hidden { display: none !important; }
+        /* --- QUARANTINE WARNING STRIP --- */
+        .warning-strip {
+            position: relative;
+            background-color: #d4b872; /* Faded, sickly yellow */
+            font-family: "Courier New", Courier, monospace; /* Typewriter aesthetic */
+            text-align: center;
+            padding: 25px 20px;
+            margin: 40px 20px 20px 20px; /* Pushes it to the bottom of the content */
+            
+            /* Simulates torn, perforated edges */
+            border-top: 3px dashed #8c7646;
+            border-bottom: 3px dashed #8c7646;
+            box-shadow: inset 0 0 20px rgba(100, 80, 40, 0.4), 0 10px 20px rgba(0,0,0,0.6);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .warning-strip p {
+            position: relative;
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            line-height: 1.5;
+            color: #1a1a1a; /* Faded black ink, overrides the global white text */
+            z-index: 2; /* Ensures text sits above the red stamp */
+        }
+
+        /* Faded Red Biohazard Stamp */
+        .biohazard-stamp {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-12deg);
+            
+            font-family: "Arial Black", Impact, sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 4px;
+            color: rgba(180, 40, 40, 0.15); /* Faded, translucent red ink */
+            
+            border: 4px solid rgba(180, 40, 40, 0.15);
+            border-radius: 8px;
+            padding: 5px 15px;
+            pointer-events: none; /* Prevents the stamp from blocking text selection */
+            white-space: nowrap;
+            z-index: 0;
+        }
     </style>
 </head>
 <body>
 
 <div id="mobile-container">
     
-    <header>
-        <div class="logo">LAST ASYLUM</div>
+    <header class="lantern-header">
+        <a href="last-asylum.html" class="back-btn">❮</a>
+        
+        <div class="lantern-container">
+            <div class="lantern-icon">
+                <img src="lantern.png" alt="Plague Lantern" class="lantern-img">
+            </div>
+            <div class="debossed-title">Last Asylum</div>
+        </div>
+        
         <div class="icon">🔍</div>
     </header>
 
@@ -134,6 +266,10 @@
                 </div>
                 <div class="dir-arrow">></div>
             </a>
+        </div>
+        <div class="warning-strip">
+            <div class="biohazard-stamp">☣ RESTRICTED</div>
+            <p>Maintained by @JJosh.</p>
         </div>
     </main>
 
