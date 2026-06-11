@@ -50,12 +50,12 @@
             padding: 10px 20px 15px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Aligns items to the top so the lantern has room */
+            align-items: flex-start;
             border-bottom: 2px solid var(--border-color);
             z-index: 20;
             
-            /* The ambient glow behind the lantern */
-            background: radial-gradient(circle at top center, rgba(184, 110, 30, 0.2) 0%, var(--nav-bg) 60%);
+            /* Sickly, toxic green ambient glow */
+            background: radial-gradient(circle at top center, rgba(76, 175, 80, 0.15) 0%, var(--nav-bg) 60%);
         }
 
         /* The downward light cast onto the page content */
@@ -66,9 +66,11 @@
             left: 0;
             width: 100%;
             height: 40px;
-            background: linear-gradient(to bottom, rgba(184, 110, 30, 0.15), transparent);
-            pointer-events: none; /* Prevents the glow from blocking taps on the anchors */
+            /* Downward green light cast */
+            background: linear-gradient(to bottom, rgba(76, 175, 80, 0.12), transparent);
+            pointer-events: none; 
         }
+
 
         .back-btn { 
             color: var(--accent-color); 
@@ -94,11 +96,22 @@
         }
 
         .lantern-icon {
-            font-size: 2.2rem;
             margin-bottom: 8px;
-            /* Creates a fiery, glowing halo around the lantern graphic */
-            filter: drop-shadow(0 0 12px rgba(220, 100, 20, 0.8));
+            display: flex;
+            justify-content: center;
         }
+
+        .lantern-img {
+            width: 55px; 
+            height: auto;
+            display: block;
+            
+            /* This makes the pitch-black background of your image completely 
+               invisible, blending the natural green glow seamlessly into the header */
+            mix-blend-mode: screen; 
+            filter: none; 
+        }
+
 
         /* Debossed Antique Book Text */
         .debossed-title {
